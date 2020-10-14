@@ -48,7 +48,7 @@ const categories = {
     insertCategory: (data) => {
         console.log(data)
         return new Promise((resolve, reject) => {
-            connection.query("INSERT INTO category SET ?", data, (err, result) => {
+            connection.query("INSERT INTO categories SET ?", data, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {

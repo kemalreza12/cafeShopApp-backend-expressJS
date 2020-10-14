@@ -24,11 +24,9 @@ const categories = {
     },
     updateCategory: (req, res) => {
         const id = req.params.idtes
-        const {nameProduct, nameCategory, idCategory} = req.body
+        const {name} = req.body
         const data = {
-            nameProduct,
-            nameCategory,
-            idCategory
+            name
         }
         categoriesModels.updateCategory(id, data)
         .then((result) => {
@@ -52,11 +50,9 @@ const categories = {
         })
     },
     insertCategory: (req, res) => {
-        const {nameProduct, nameCategory, idCategory} = req.body
+        const {name} = req.body
         const data = {
-            nameProduct,
-            nameCategory,
-            idCategory
+            name
         }
         categoriesModels.insertCategory(data)
         .then((result) => {

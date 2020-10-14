@@ -1,4 +1,7 @@
 const historiesModels = require('../models/histories')
+const helper = require('../helpers/helpers')
+// const redis = require('redis')
+// const client = redis.createClient(6379);
 
 const histories = {
     getHistoryById: (req, res) => {
@@ -16,7 +19,8 @@ const histories = {
         historiesModels.getAllHistory()
         .then((result)=>{
             resultHistories = result;
-            res.json(resultHistories);
+            // client.setex('getallhistory', 60*60*12 , JSON.stringify(resultHistories))
+            helper.response(res, resultHistories, 200, null)
         })
         .catch((err)=>{
             console.log(err)
@@ -24,11 +28,13 @@ const histories = {
     },
     updateHistory: (req, res) => {
         const id = req.params.idtes
-        const {income, orders} = req.body
+        const {invoices, cashier, orders, amount} = req.body
         const data = {
-            income,
+            invoices,
+            cashier,
+            amount,
             orders,
-            time: new Date()
+            date: new Date()
         }
         historiesModels.updateHistory(id, data)
         .then((result) => {
@@ -52,11 +58,13 @@ const histories = {
         })
     },
     insertHistory: (req, res) => {
-        const {income, orders} = req.body
+        const {invoices, cashier, orders, amount} = req.body
         const data = {
-            income,
+            invoices,
+            cashier,
+            amount,
             orders,
-            time: new Date()
+            date: new Date()
         }
         historiesModels.insertHistory(data)
         .then((result) => {

@@ -1,13 +1,16 @@
-// const express = require('express')
+const express = require('express')
 
-// const routerProducts = require('./products')
-// const routerCategories = require('./categories')
-// const routerHistories = require('./histories')
+const routerProducts = require('./products')
+const routerCategories = require('./categories')
+const routerHistories = require('./histories')
+const routerUsers = require('./users')
 
-// const router = express.Router()
+const router = express.Router()
 
-// router.use('./products.js', routerProducts)
-// router.use('./categories.js', routerCategories)
-// router.use('./histories.js', routerHistories)
+router
+    .use('/products', routerProducts)
+    .use('/categories', routerCategories)
+    .use('/histories', routerHistories)
+    .use('/users', routerUsers)
 
-// module.exports = router;
+module.exports = router;
