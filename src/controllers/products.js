@@ -1,57 +1,41 @@
 const productsModels = require('../models/products')
-const helper = require('../helpers/helpers')
-const redis = require('redis')
-// const client = redis.createClient(6379);
-
 
 const products = {
-    getProductById: (req, res) => {
+    getProductsById: (req, res) => {
         const id  = req.params.id;
-        productsModels.getProductById(id)
+        productsModels.getProductsById(id)
         .then((result) => {
             resultProducts = result;
-            helper.response(res, resultProducts, 200, null)
+            res.json(resultProducts);
         })
         .catch((err) => {
             console.log(err)
         })
     },
-    getAllProduct: (req, res) => {
-        const sortdata = req.query.sort || 'id';
-        const typeSort = req.query.typesort || 'ASC' 
-        const search = req.query.search
-        const limit = req.query.limit || 9
-        const offset = ((req.query.page || 1) -1) * limit
-        productsModels.getAllProduct({sortdata,typeSort, search, limit, offset})
-        .then((result) => {
-          resultProducts = result
-    
-        //   res.json(resultProducts);
-        //   client.setex('getallproduct', 60*60*12 , JSON.stringify(resultProducts))
-          helper.response(res, resultProducts, 200, null, req.paginations)
+    getAllProduct: (req, res) =>{
+        productsModels.getAllProduct()
+        .then((result)=>{
+            resultProducts = result;
+            res.json(resultProducts);
         })
-        .catch((err) => {
-          console.log(err)
+        .catch((err)=>{
+            console.log(err)
         })
-      },
+    },
     updateProduct: (req, res) => {
         const id = req.params.idtes
-        const {name, price, idCategory} = req.body
+        const {name, image, price, idCategory} = req.body
         const data = {
             name,
+            image,
             price,
-            idCategory,
-            createdAt: new Date(),
-            updateAt: new Date()
+            idCategory
         }
-        if(req.file) {
-            req.image = `http://localhost:8000/uploads/${req.file.filename}`
-        }
-        productsModels.updateProduct(id, data)
+        productsModels.updateProducts(id, data)
         .then((result) => {
             const resultProducts = result;
             console.log(result)
-            helper.response(res, resultProducts, 200, null)
+            res.json(resultProducts)
         })
         .catch((err) => {
             console.log(err)
@@ -59,32 +43,28 @@ const products = {
     },
     deleteProduct: (req, res) => {
         const id = req.params.id
-        productsModels.deleteProduct(id)
+        productsModels.deleteProducts(id)
         .then((result) => {
             resultProducts = result;
-            helper.response(res, resultProducts, 200, null)
+            res.json(resultProducts);
         })
         .catch((err) => {
             console.log(err)
         })
     },
     insertProduct: (req, res) => {
-        console.log(req.file);
-        const {name, price, idCategory} = req.body
+        const {name, image, price, idCategory} = req.body
         const data = {
             name,
-            image:`http://localhost:8000/uploads/${req.file.filename}`,
+            image,
             price,
-            idCategory,
-            createdAt: new Date(),
-            updateAt: new Date()
+            idCategory
         }
         productsModels.insertProduct(data)
         .then((result) => {
             const resultProducts = result;
             console.log(result)
-            // res.json(resultProducts)
-            helper.response(res, resultProducts, 200, null)
+            res.json(resultProducts)
         })
         .catch((err) => {
             console.log(err)
