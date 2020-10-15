@@ -60,4 +60,4 @@ See [Documentation API](https://www.getpostman.com/collections/cad45b669302e594c
 
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/
+[MIT](https://choosealicense.com/licenses/mit/)
